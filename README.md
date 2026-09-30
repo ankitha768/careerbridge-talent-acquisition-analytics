@@ -76,3 +76,12 @@ requirements.txt
 ```
 
 This is a portfolio implementation of the CareerBridge project scope; sample data is included so the application works without live scraping.
+
+## Production-style support files
+- `Dockerfile` with Chromium installation for Playwright.
+- `Makefile` and `.github/workflows/ci.yml` for repeatable setup and CI.
+- `data/sample_candidate.json` for an offline demo.
+- `docs/API.md` and `docs/scraping.md` for API and responsible collection guidance.
+- `docs/screenshots/product-overview.svg` for the polished matching workspace preview.
+
+The visual assets are repository documentation mockups; sample job data is provided for local evaluation.
