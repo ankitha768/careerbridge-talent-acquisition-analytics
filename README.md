@@ -26,6 +26,9 @@ G --> H[FastAPI / Dashboard]
 
 ## Screenshots
 
+### Product workspace
+![Product overview](docs/screenshots/product-overview.svg)
+
 ### Candidate matching
 ![Candidate matching](docs/screenshots/matching-dashboard.svg)
 
