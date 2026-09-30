@@ -1,0 +1,5 @@
+[
+  {"id":"job-001","title":"Backend Python Developer","company":"TechNova","skills":["Python","FastAPI","MySQL","Git"],"min_experience":1,"location":"Hyderabad"},
+  {"id":"job-002","title":"Cloud Software Engineer","company":"CloudWorks","skills":["Python","GCP","Docker","SQL"],"min_experience":1,"location":"Bengaluru"},
+  {"id":"job-003","title":"Full Stack Developer","company":"DigitalBridge","skills":["Python","JavaScript","HTML","CSS","MySQL"],"min_experience":2,"location":"Remote"}
+]
