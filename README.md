@@ -1,28 +1,56 @@
 # CareerBridge — Talent Acquisition Analytics
 
-A recruitment analytics and candidate-matching prototype using **Playwright**, lightweight **NLP**, and a transparent ranking engine.
+A **Streamlit-first recruitment analytics and candidate-matching application** built with Python. It provides an interactive workspace for candidate profiles, explainable job matching, skill-gap analysis, and ranking.
+
+The repository also retains the original FastAPI and Playwright implementation for backend/reference use.
+
+## 🚀 Streamlit deployment
+
+The Streamlit app entry point is:
+
+```text
+streamlit_app.py
+```
+
+### Run locally
+
+```bash
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+# macOS/Linux
+source .venv/bin/activate
+
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+Open the local URL shown by Streamlit, usually `http://localhost:8501`.
+
+### Deploy on Streamlit Community Cloud
+
+1. Push this repository to GitHub.
+2. Open Streamlit Community Cloud and create a new app.
+3. Select repository: `ankitha768/careerbridge-talent-acquisition-analytics`.
+4. Select branch: `main`.
+5. Set the main file to: `streamlit_app.py`.
+6. Deploy.
+
+The deployed demo uses the repository's sample job data, so it does not require live job-site scraping or external services.
 
 ## Features
-- Playwright-based job collection workflow.
-- Normalized job records.
-- Candidate profile parsing from skills and experience.
-- Skill-overlap and experience matching.
-- Explainable candidate ranking.
-- Sample dataset for offline demos.
-- FastAPI endpoints for matching and job collection.
-- Responsible scraping controls: explicit target URL, delay, and local/sample mode.
 
-## Architecture
-```mermaid
-flowchart LR
-A[Job Sources] --> B[Playwright Collector]
-B --> C[Job Normalizer]
-C --> D[(jobs.json)]
-E[Candidate Profile] --> F[NLP Matcher]
-D --> F
-F --> G[Ranking Engine]
-G --> H[FastAPI / Dashboard]
-```
+- 👤 Candidate profile input.
+- 🧠 TF-IDF semantic similarity.
+- 🧩 Required-skill overlap analysis.
+- 📈 Transparent match scoring.
+- 🏆 Job ranking with explanations.
+- 🔎 Missing-skill identification.
+- 📚 Offline sample dataset for reliable deployment.
+- 🐍 Python-only Streamlit deployment path.
+- ⚙️ Original FastAPI/Playwright workflow retained for backend reference.
 
 ## Screenshots
 
@@ -35,56 +63,62 @@ G --> H[FastAPI / Dashboard]
 ### Data pipeline
 ![Data pipeline](docs/screenshots/pipeline.svg)
 
-## Quick start
-```bash
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# macOS/Linux
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-Open http://127.0.0.1:8000/docs
+## Matching logic
 
-## Match example
-```json
-POST /api/v1/match
-{
-  "candidate": {
-    "name": "Ankitha",
-    "skills": ["Python", "FastAPI", "MySQL", "Git"],
-    "years_experience": 1
-  },
-  "job_id": "job-001"
-}
-```
+The deployed Streamlit app uses the same matching service already present in the repository:
 
-## Scraper
-The collector is intentionally generic. Set a public target URL and CSS selectors in code/config for a permitted source. Do not bypass authentication, anti-bot controls, robots restrictions, or access controls.
+- Skill overlap contributes up to 60 points.
+- TF-IDF cosine similarity contributes up to 20 points.
+- Experience fit contributes up to 20 points.
+- A complete required-skill and experience match is capped at 100.
+
+The result also lists matched and missing skills and provides an explanation for each role.
+
+## Streamlit architecture
+
+```mermaid
+flowchart LR
+A[Candidate Profile] --> B[Streamlit UI]
+C[jobs.json] --> B
+B --> D[Candidate + Job Models]
+D --> E[Matching Service]
+E --> F[TF-IDF Similarity]
+E --> G[Skill + Experience Scoring]
+F --> H[Explainable Ranking]
+G --> H
+H --> I[Streamlit Results]
+```
 
 ## Project structure
+
 ```text
+streamlit_app.py
+requirements.txt
+requirements-api.txt
+.streamlit/config.toml
 app/
-  api/routes.py
   models.py
   services/matcher.py
   services/ranking.py
-  scraper/playwright_collector.py
-data/jobs.json
+  scraper/
+data/
 tests/
 docs/screenshots/
-requirements.txt
-.env.example
 ```
 
-This is a portfolio implementation of the CareerBridge project scope; sample data is included so the application works without live scraping.
+## Legacy API / scraping setup
 
-## Production-style support files
-- `Dockerfile` with Chromium installation for Playwright.
-- `Makefile` and `.github/workflows/ci.yml` for repeatable setup and CI.
-- `data/sample_candidate.json` for an offline demo.
-- `docs/API.md` and `docs/scraping.md` for API and responsible collection guidance.
-- `docs/screenshots/product-overview.svg` for the polished matching workspace preview.
+The original FastAPI implementation can still be run separately:
 
-The visual assets are repository documentation mockups; sample job data is provided for local evaluation.
+```bash
+pip install -r requirements-api.txt
+uvicorn app.main:app --reload
+```
+
+The Playwright collector is intentionally generic and should only be used with permitted public sources. Do not bypass authentication, anti-bot controls, robots restrictions, or access controls.
+
+## Notes
+
+- Streamlit deployment uses sample data from `data/jobs.json`, making the demo deterministic and self-contained.
+- No live scraping is required for the deployed portfolio demo.
+- The repository's visual assets are documentation mockups, not screenshots of a live deployed instance.
